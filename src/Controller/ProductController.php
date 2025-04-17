@@ -11,26 +11,19 @@ use App\Form\ProductType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class ProductController extends AbstractController
+class ProductController extends AbstractController
 {
     #[Route('/products', name: 'product_index')]
     public function index(ProductRepository $repository): Response
-    {   
-        // Fetch all products from the database
+    {
         return $this->render('product/index.html.twig', [
             'products' => $repository->findAll(),
         ]);
     }
 
-    #[Route('/products/{id<\d+>}', name: 'product_show')]
+    #[Route('/product/{id<\d+>}', name: 'product_show')]
     public function show(Product $product): Response
-    {   
-        // $product = $repository->find($id);
-        // if (!$product) {
-        //     throw $this->createNotFoundException('Product not found');
-        // }
-
-        // Fetch a single product by its ID
+    {
         return $this->render('product/show.html.twig', [
             'product' => $product
         ]);
@@ -67,10 +60,9 @@ final class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/product/edit/{id<\d+>}', name: 'product_edit')]
-    public function edit(Product $product, Request $request, EntityManagerInterface $manager) : Response
+    #[Route('/product/{id<\d+>}/edit', name: 'product_edit')]
+    public function edit(Product $product, Request $request, EntityManagerInterface $manager): Response
     {
-
         $form = $this->createForm(ProductType::class, $product);
 
         $form->handleRequest($request);
@@ -90,16 +82,18 @@ final class ProductController extends AbstractController
 
         }
 
-        return $this->render('product/new.html.twig', [
+        return $this->render('product/edit.html.twig', [
             'form' => $form,
         ]);
     }
 
-    #[Route('/product/delete/{id<\d+>}', name: 'product_delete')]
+    #[Route('/product/{id<\d+>}/delete', name: 'product_delete')]
     public function delete(Request $request, Product $product, EntityManagerInterface $manager): Response
-    {   
+    {
         if ($request->isMethod('POST')) {
+
             $manager->remove($product);
+
             $manager->flush();
 
             $this->addFlash(
@@ -108,6 +102,7 @@ final class ProductController extends AbstractController
             );
 
             return $this->redirectToRoute('product_index');
+
         }
 
         return $this->render('product/delete.html.twig', [

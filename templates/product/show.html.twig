@@ -2,22 +2,23 @@
 
 {% block body %}
 
-<h1>Products</h1>
+<h1>Product</h1>
 
 <table>
     <tbody>
         <tr>
-          <th>Name</th>
-          <td>{{ product.name }}</td>
+            <th>Name</th>
+            <td>{{ product.name }}</td>
         </tr>
         <tr>
-          <th>Description</th>
-          <td>{{ product.description }}</td>
+            <th>Description</th>
+            <td>{{ product.description }}</td>
         </tr>
         <tr>
-          <th>Size</th>
-          <td>{{ product.size }}</td>
+            <th>Size</th>
+            <td>{{ product.size }}</td>
         </tr>
+    </tbody>
 </table>
 
 <a href="{{ path('product_edit', {'id': product.id}) }}">Edit</a>

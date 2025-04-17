@@ -17,14 +17,15 @@ class Product
 
     #[ORM\Column(length: 128)]
     #[Assert\NotBlank]
-    #[Assert\Type('integer')]
-    #[Assert\Positive]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Type('integer')]
+    #[Assert\Positive]
     private ?int $size = null;
 
     public function getId(): ?int
